@@ -4,6 +4,7 @@ from django.utils import timezone
 from jose import jwt
 from django.core.files import File
 from users.models import ClientUser, Session, StaffUser
+from luhn import *
 
 
 class ClientUserControllers(DefaultControllers):
@@ -15,7 +16,7 @@ class ClientUserControllers(DefaultControllers):
         user.club_premier_id = data['club_premier_id']
         user.accepts_terms = True
         user.save()
-        return
+        return user
 
     @classmethod
     def get_by_token(cls, token):
@@ -28,7 +29,6 @@ class ClientUserControllers(DefaultControllers):
 
     @classmethod
     def create_token(cls, user_obj):
-        print('hl')
         """Crea Token cada que se hace login"""
         try:
             return jwt.encode(
@@ -40,6 +40,12 @@ class ClientUserControllers(DefaultControllers):
         except:
             return None
 
+    @classmethod
+    def id_validate(cls, id_club_premier):
+        validation=verify(id_club_premier)
+        if validation is True:
+            return True
+        return False
 
 class SessionControllers(DefaultControllers):
     model = Session

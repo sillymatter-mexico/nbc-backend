@@ -8,17 +8,17 @@ class Login(NoTokenView):
         login_form = LoginForm(request.data)
         if not login_form.is_valid():
             return self.api_fail_response(
-                None, 'CN y/o Contraseña incorrectos')
+                None, 'ID incorrecto')
         data = request.data
         id_club_premier = data['club_premier_id']
-        status = True
-        if not status:
-            return self.api_fail_response(
-                None, 'CN y/o Contraseña incorrectos')
         accepts_terms = data['accepts_terms']
         if accepts_terms == 'False':
             message = 'Debe aceptar los Terminos'
             return self.api_fail_response({}, message)
+        status = ClientUserControllers.id_validate(id_club_premier)
+        if not status:
+            return self.api_fail_response(
+                None, 'ID incorrecto')
         user = ClientUserControllers.get_by_id_club_premier(id_club_premier)
         if user is None:
             user = ClientUserControllers.create_user(data)
