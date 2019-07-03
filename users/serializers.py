@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from users.models import ClientUser, Session, StaffUser
+from game.serializers import LabelSerializer
 
 
 class ClientUserSerializer(serializers.ModelSerializer):
@@ -9,12 +10,15 @@ class ClientUserSerializer(serializers.ModelSerializer):
 
 
 class SessionSerializer(serializers.ModelSerializer):
+    client_user_pk = ClientUserSerializer(many=False, read_only=True)
+    label = LabelSerializer(many=False, read_only=True)
+
     class Meta:
         model = Session
-        field = ('client_user_pk', 'score', 'completed', 'uuid')
+        fields = ('client_user_pk', 'score', 'label', 'attempt', 'completed', 'uuid')
 
 
 class StaffUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = StaffUser
-        field = ('first_name', 'last_name', ' email', 'password', 'uuid')
+        fields = ('first_name', 'last_name', ' email', 'password', 'uuid')

@@ -10,7 +10,8 @@ class ClientUserAdmin(admin.ModelAdmin):
 
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'uuid']
+    raw_id_fields = ['client_user_pk', 'label']
+    list_display = ['pk','__str__','label','attempt', 'uuid']
 
 
 @admin.register(StaffUser)
