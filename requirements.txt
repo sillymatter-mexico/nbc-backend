@@ -1,13 +1,13 @@
 amqp==2.5.0
 billiard==3.6.0.0
 celery==4.3.0
-Django==2.2.1
+Django==2.2.2
 django-celery-beat==1.5.0
 django-celery-results==1.1.0
 django-cors-headers==2.4.0
 django-timezone-field==3.0
 djangorestframework==3.9.4
-ecdsa==0.13.2pi
+ecdsa==0.13.2
 future==0.17.1
 kombu==4.6.3
 luhn==0.2.0
