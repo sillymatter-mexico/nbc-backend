@@ -10,7 +10,7 @@ class Game(PublicModel):
     total_levels = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return '{0}'.format(self.order)
+        return '{0}{1}{2}'.format(self.order, self.order, self.total_levels)
 
 
 class Label(PublicModel):

@@ -4,10 +4,12 @@ from game.serializers import LabelSerializer
 
 
 class ClientUserSerializer(serializers.ModelSerializer):
+    total_score = serializers.SerializerMethodField()
     class Meta:
         model = ClientUser
         fields = ('club_premier_id', 'uuid')
-
+    def get_total_score(self, client_user):
+        return Session.objects.filter(client_user_pk=client_user)
 
 class SessionSerializer(serializers.ModelSerializer):
     client_user_pk = ClientUserSerializer(many=False, read_only=True)

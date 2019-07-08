@@ -5,9 +5,9 @@ from game.models import Game, Label
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'uuid']
+    list_display = ['__str__', 'name','uuid']
 
 
 @admin.register(Label)
 class LabelAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'uuid']
+    list_display = ['__str__', 'name','uuid']
