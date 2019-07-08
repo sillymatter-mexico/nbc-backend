@@ -31,7 +31,7 @@ services:
       dockerfile: Dockerfile
     command: sh /site/docker-utils/app-start.sh
     environment:
-      - PROJECT_NAME=frutevia
+      - PROJECT_NAME=universal
     volumes:
       - .:/site/proj/
       - static-volume:/site/htdocs/static/
@@ -48,7 +48,7 @@ services:
       dockerfile: Dockerfile
     command: sh /site/docker-utils/celerybeat-start.sh
     environment:
-      - PROJECT_NAME=frutevia
+      - PROJECT_NAME=universal
     volumes:
       - .:/site/proj/
       - static-volume:/site/htdocs/static/
