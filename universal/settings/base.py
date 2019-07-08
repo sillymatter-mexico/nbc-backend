@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # TODO celery
+    # TODO celeryPROJECT_NAME
     'django_celery_results',
     'django_celery_beat',
 

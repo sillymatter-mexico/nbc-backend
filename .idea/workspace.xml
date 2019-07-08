@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9e6b3d83-5321-48a5-9ed5-d98d8a4782cb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docker-utils/nginx/default.template.conf" afterPath="$PROJECT_DIR$/docker-utils/nginx/default.template.conf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/universal/settings/base.py" afterPath="$PROJECT_DIR$/universal/settings/base.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,17 +49,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="base.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/universal/settings/base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="842">
-              <caret line="158" column="23" lean-forward="true" selection-start-line="158" selection-start-column="23" selection-end-line="158" selection-end-column="23" />
+            <state relative-caret-position="180">
+              <caret line="40" column="29" lean-forward="false" selection-start-line="40" selection-start-column="29" selection-end-line="40" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="celery_app.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="celery_app.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/universal/celery_app.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -85,8 +84,8 @@
       <file leaf-file-name="docker-compose.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docker-compose.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="48" column="54" lean-forward="true" selection-start-line="48" selection-start-column="54" selection-end-line="48" selection-end-column="54" />
+            <state relative-caret-position="240">
+              <caret line="42" column="16" lean-forward="true" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -133,7 +132,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>amqp://guest@localhost/</find>
       <find>amqp://guest@localhost</find>
       <find>mqp://guest@localhost</find>
       <find>qp://guest@localhost</find>
@@ -148,7 +146,6 @@
       <find>t@localhost</find>
       <find>@localhost</find>
       <find>localhost</find>
-      <find>stat</find>
       <find>u</find>
       <find>un</find>
       <find>uni</find>
@@ -163,6 +160,8 @@
       <find>frutev</find>
       <find>frute</find>
       <find>frut</find>
+      <find>stat</find>
+      <find>PROJECT_NAME</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -202,8 +201,8 @@
         <option value="$PROJECT_DIR$/game/models.py" />
         <option value="$PROJECT_DIR$/game/admin.py" />
         <option value="$PROJECT_DIR$/docker-compose.yml" />
-        <option value="$PROJECT_DIR$/universal/settings/base.py" />
         <option value="$PROJECT_DIR$/docker-utils/nginx/default.template.conf" />
+        <option value="$PROJECT_DIR$/universal/settings/base.py" />
       </list>
     </option>
   </component>
@@ -809,14 +808,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/universal/settings/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="842">
-          <caret line="158" column="23" lean-forward="true" selection-start-line="158" selection-start-column="23" selection-end-line="158" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/users/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -859,14 +850,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docker-compose.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="48" column="54" lean-forward="true" selection-start-line="48" selection-start-column="54" selection-end-line="48" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/game/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -890,6 +873,22 @@
           <folding>
             <element signature="e#0#56#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docker-compose.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="42" column="16" lean-forward="true" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/universal/settings/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="40" column="29" lean-forward="false" selection-start-line="40" selection-start-column="29" selection-end-line="40" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
