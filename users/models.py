@@ -23,6 +23,9 @@ class Session(PublicModel):
     label = models.ForeignKey('game.Label', models.SET_NULL, null=True, blank=True)
     completed = models.BooleanField()
     attempt = models.IntegerField(null=True, blank=True)
+    game = models.ForeignKey('game.Game', models.SET_NULL, null=True, blank=True)
+    high_score = models.DecimalField(max_digits=10, decimal_places=5, null=True,
+                                blank=True)
     def __str__(self):
         return '{0}{1}{2}'.format(self.client_user_pk, self.score,
                                   self.completed)

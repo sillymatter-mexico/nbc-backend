@@ -37,16 +37,13 @@ class General_information(TokenView):
         return self.api_ok_response(user_data, '')
 
 class Create_session(TokenView):
-    def post(self, request):
-
-        user_id = self.user.club_premier_id
+    def post(self, request, client_user_uuid):
+        client_user= ClientUserControllers.get_by_uuid(client_user_uuid)
         data = request.data
         number_game = data['number_game']
-
-        user = ClientUserControllers.get_by_id_club_premier(user_id)
-        session_user =SessionControllers.search_session(user.uuid)
+        session_user =SessionControllers.search_session(client_user.uuid, number_game)
         if session_user is None:
-            session_user = SessionControllers.create_session(user, number_game)
+            session_user = SessionControllers.create_session(client_user, number_game)
         info = SessionSerializer(session_user, many=False).data
         return self.api_fail_response(info, '')
 
@@ -54,12 +51,11 @@ class Create_session(TokenView):
 class Save_session(TokenView):
     def post(self, request, client_user_uuid):
         data= request.data
-        client_user= ClientUserControllers.get_by_uuid(client_user_uuid)
         number_game = data['number_game']
-        session_user =SessionControllers.search_session(client_user.uuid)
-        save_session = SessionControllers.save_session(session_user, data)
-        if save_session is None:
-            message="Juegos y niveles finalizados"
+        session_user =SessionControllers.search_session(client_user_uuid, number_game)
+        if session_user.attempt == 3:
+            message = "Juego finalizado"
             return self.api_ok_response({}, message)
+        save_session = SessionControllers.save_session(session_user, data)
         info = SessionSerializer(session_user, many=False).data
         return self.api_fail_response(info, '')
