@@ -3,16 +3,19 @@ from users.models import ClientUser, Session, StaffUser
 
 # Register your models here.
 
-@admin.register(ClientUser)
-class ClientUserAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'uuid']
-
-
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
     raw_id_fields = ['client_user_pk', 'label']
-    list_display = ['pk','__str__','label','attempt', 'uuid']
+    list_display = ['pk','client_user_pk', 'game' ,'attempt', 'high_score', 'level','uuid']
 
+class SessionInline(admin.TabularInline):
+    model = Session
+    fields = ['game', 'attempt', 'high_score']
+
+@admin.register(ClientUser)
+class ClientUserAdmin(admin.ModelAdmin):
+    list_display = ['__str__', 'uuid']
+    inlines = [SessionInline]
 
 @admin.register(StaffUser)
 class StaffUserAdmin(admin.ModelAdmin):

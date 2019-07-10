@@ -30,9 +30,9 @@ class Login(NoTokenView):
         return self.api_ok_response(user_data, messages)
 
 class General_information(TokenView):
-    def get(self, request):
-        user_id = self.user.club_premier_id
-        user = ClientUserControllers.get_by_id_club_premier(user_id)
+    def get(self, request, client_user_uuid):
+        client_user = ClientUserControllers.get_by_uuid(client_user_uuid)
+        user = ClientUserControllers.get_by_id_club_premier(client_user)
         user_data = ClientUserSerializer(user, many=False).data
         return self.api_ok_response(user_data, '')
 

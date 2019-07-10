@@ -12,7 +12,7 @@ class Game(PublicModel):
                                 blank=True)
 
     def __str__(self):
-        return '{0}{1}{2}'.format(self.order, self.order, self.total_levels)
+        return '{0}{1}'.format(self.order, self.name)
 
 
 class Label(PublicModel):
