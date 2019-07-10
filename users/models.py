@@ -29,6 +29,10 @@ class Session(PublicModel):
     bonus = models.DecimalField(blank=True, decimal_places=5, max_digits=10, null=True)
     high_bonus = models.DecimalField(blank=True, decimal_places=5, max_digits=10, null=True)
     level = models.IntegerField(blank=True, null=True)
+    score_level = models.DecimalField(blank=True, decimal_places=5, max_digits=10, null=True)
+    bonus_level = models.DecimalField(blank=True, decimal_places=5, max_digits=10, null=True)
+    high_score_level = models.DecimalField(blank=True, decimal_places=5, max_digits=10, null=True)
+    high_bonus_level = models.DecimalField(blank=True, decimal_places=5, max_digits=10, null=True)
 
     def __str__(self):
         return '{0}{1}{2}'.format(self.client_user_pk, self.score,

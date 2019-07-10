@@ -19,7 +19,7 @@ class SessionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Session
-        fields = ('client_user_pk', 'score', 'high_score', 'game', 'attempt', 'completed', 'uuid')
+        fields = ('client_user_pk', 'game', 'attempt', 'completed', 'uuid', 'level',  'score_level', 'bonus_level', 'high_score_level', 'high_bonus_level', 'bonus', 'score', 'high_bonus','high_score')
 
 
 class StaffUserSerializer(serializers.ModelSerializer):
