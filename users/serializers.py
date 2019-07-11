@@ -4,6 +4,13 @@ from game.models import Game
 from game.serializers import GameSerializer
 from django.db.models import Sum
 
+class SessionGameSerializer(serializers.ModelSerializer):
+    game = GameSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = Session
+        fields = ('game', 'attempt', 'completed', 'uuid', 'level',  'score_level', 'bonus_level', 'high_score_level', 'high_bonus_level', 'bonus', 'score', 'high_bonus','high_score')
+
 
 class ClientUserSerializer(serializers.ModelSerializer):
     total_score = serializers.SerializerMethodField()
@@ -14,12 +21,11 @@ class ClientUserSerializer(serializers.ModelSerializer):
         model = ClientUser
         fields = ('club_premier_id', 'uuid', 'completed_game', 'total_score', 'game')
     def get_total_score(self, client_user):
-        return Session.objects.filter(client_user_pk=client_user).aggregate(Sum('high_score'))
+        return Session.objects.filter(client_user_pk=client_user).aggregate(Sum('high_score')).get('high_score__sum')
     def get_completed_game(self, client_user):
         return Session.objects.filter(client_user_pk=client_user, attempt=3).count()
     def get_game(self, client_user):
-        return Session.objects.filter(client_user_pk=client_user, game__enable=True).values()
-
+        return SessionGameSerializer(client_user.session_set.all(), many=True).data
 
 class SessionSerializer(serializers.ModelSerializer):
     client_user_pk = ClientUserSerializer(many=False, read_only=True)
@@ -28,7 +34,6 @@ class SessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Session
         fields = ('client_user_pk', 'game', 'attempt', 'completed', 'uuid', 'level',  'score_level', 'bonus_level', 'high_score_level', 'high_bonus_level', 'bonus', 'score', 'high_bonus','high_score')
-
 
 class StaffUserSerializer(serializers.ModelSerializer):
     class Meta:

@@ -45,7 +45,7 @@ class Create_session(TokenView):
         if session_user is None:
             session_user = SessionControllers.create_session(client_user, number_game)
         info = SessionSerializer(session_user, many=False).data
-        return self.api_fail_response(info, '')
+        return self.api_ok_response(info, '')
 
 
 class Save_session(TokenView):
@@ -58,4 +58,4 @@ class Save_session(TokenView):
             return self.api_ok_response({}, message)
         save_session = SessionControllers.save_session(session_user, data)
         info = SessionSerializer(session_user, many=False).data
-        return self.api_fail_response(info, '')
+        return self.api_ok_response(info, '')
