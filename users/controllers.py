@@ -89,28 +89,25 @@ class SessionControllers(DefaultControllers):
                 user_session.score = data['score']
                 sum_score = user_session.high_score + int(data['score'])
                 max_score = GameControllers.game(user_session.game.order)
-                if sum_score > max_score:
+                if sum_score >= max_score:
                     user_session.high_score = max_score
-                    user_session.attempt = 3
+                    user_session.attempt = user_session.attempt + 1
                 else:
                     user_session.high_score = sum_score
-                    if user_session.high_score == max_score:
-                        user_session.attempt = 3
-                    else:
-                        user_session.attempt = user_session.attempt + 1
+                    user_session.attempt = user_session.attempt + 1
             if user_session.game.order == 4:
-                user_session.score = data['score']
+                user_session.score =int(data['score'])
                 max_score = GameControllers.game(user_session.game.order)
-                if int(data['score']) < max_score:
-                    if int(data['score']) >= user_session.high_score:
-                        user_session.high_score = data['score']
+                if user_session.score < max_score:
+                    if user_session.score >= user_session.high_score:
+                        user_session.high_score = user_session.score
                         user_session.attempt = user_session.attempt + 1
                     else:
                         user_session.high_score = user_session.high_score
                         user_session.attempt = user_session.attempt + 1
                 else:
                     user_session.high_score = max_score
-                    user_session.attempt= 3
+                    user_session.attempt= user_session.attempt + 1
             if user_session.game.order == 2:
                 user_session.level = user_session.level + 1
                 user_session.high_score_level=user_session.high_score_level+ int(data['score'])

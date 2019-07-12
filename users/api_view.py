@@ -2,6 +2,7 @@ from core.view_rest import NoTokenView, TokenView
 from users.controllers import ClientUserControllers, SessionControllers
 from users.serializers import ClientUserSerializer, SessionSerializer
 from users.forms import LoginForm
+from game.controllers import GameControllers
 
 class Login(NoTokenView):
     def post(self, request):
@@ -52,10 +53,16 @@ class Save_session(TokenView):
     def post(self, request, client_user_uuid):
         data= request.data
         number_game = data['number_game']
-        session_user =SessionControllers.search_session(client_user_uuid, number_game)
-        if session_user.attempt == 3:
-            message = "Juego finalizado"
-            return self.api_ok_response({}, message)
+        session_user = SessionControllers.search_session(client_user_uuid, number_game)
+        if int(number_game)== 2:
+            if session_user.attempt == 3:
+                message = "Juego finalizado"
+                return self.api_ok_response({}, message)
+        else:
+            max_score = GameControllers.game(number_game)
+            if session_user.attempt == 3 or session_user.high_score>=max_score:
+                message = "Juego finalizado"
+                return self.api_ok_response({}, message)
         save_session = SessionControllers.save_session(session_user, data)
-        info = SessionSerializer(session_user, many=False).data
+        info = SessionSerializer(save_session, many=False).data
         return self.api_ok_response(info, '')
