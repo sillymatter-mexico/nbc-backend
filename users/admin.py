@@ -1,5 +1,6 @@
 from django.contrib import admin
-from users.models import ClientUser, Session, StaffUser
+from users.models import ClientUser, Session, StaffUser, ReportUsers
+from users.tasks import ReportClientUser
 
 # Register your models here.
 
@@ -14,9 +15,22 @@ class SessionInline(admin.TabularInline):
 
 @admin.register(ClientUser)
 class ClientUserAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'uuid']
+    list_display = ['__str__','created', 'uuid']
     inlines = [SessionInline]
 
 @admin.register(StaffUser)
 class StaffUserAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'uuid']
+
+def Reporte_Usuarios(modeladmin, request, queryset):
+    for i in queryset:
+        data = {'id': int(i.id)}
+       #ReportClientUser.delay(data)
+        ReportClientUser(data)
+
+@admin.register(ReportUsers)
+class ReportUsers(admin.ModelAdmin):
+    list_display = ('id', 'name', 'start_date', 'finish_date', 'email', 'url',
+                    'percent', 'percent_report')
+    fields = ['name', 'email', 'start_date', 'finish_date']
+    actions = [Reporte_Usuarios]

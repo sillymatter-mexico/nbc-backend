@@ -47,3 +47,20 @@ class StaffUser(PublicModel):
 
     def __str__(self):
         return '{0}{1}{2}'.format(self.first_name, self.last_name, self.email)
+
+
+class ReportUsers(PublicModel):
+    name = models.CharField(max_length=125,
+                            verbose_name=u'Nombre del Archivo')
+    start_date = models.DateField(verbose_name=u'Fecha de inicio',
+                                  help_text=u'Fecha desde donde iniciara el '
+                                            u'reporte')
+    finish_date = models.DateField(verbose_name=u'Fecha de fin',
+                                   help_text=u'Fecha hasta donde llegara el'
+                                             u' reporte')
+    email = models.EmailField()
+    url = models.FileField(upload_to="report/punctuation/", blank=True,
+                           help_text=u'Después de terminado el reporte se '
+                                     u'podra descargar desde esta URL')
+    percent = models.SmallIntegerField(default=0, blank=True, verbose_name=u'Porcentaje Genera Total')
+    percent_report = models.SmallIntegerField(default=0, blank=True, verbose_name=u'Porcentaje Reporte')

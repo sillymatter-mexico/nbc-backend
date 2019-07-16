@@ -11,6 +11,7 @@ ecdsa==0.13.2
 future==0.17.1
 kombu==4.6.3
 luhn==0.2.0
+openpyxl==2.5.9
 psycopg2-binary==2.7.5
 pyasn1==0.4.5
 python-crontab==2.3.6

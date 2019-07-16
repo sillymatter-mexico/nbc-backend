@@ -48,6 +48,11 @@ ENV DB_USER='postgres'
 ENV DB_PASSWORD=''
 ENV DB_HOST='db'
 ENV DB_PORT='5432'
-
+ENV EMAIL_USE_TLS = 'True'
+ENV EMAIL_HOST = 'smtp.gmail.com'
+ENV EMAIL_HOST_USER = 'claudiam.texcucano@gmail.com'
+ENV EMAIL_HOST_PASSWORD = 'claudia333ale'
+ENV EMAIL_PORT = '587'
+ENV EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 COPY . proj/
