@@ -5,7 +5,7 @@ from game.models import Game, Label
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ('name', 'order', 'uuid')
+        fields = ('name', 'order', 'uuid', 'enable')
 
 
 class LabelSerializer(serializers.ModelSerializer):
