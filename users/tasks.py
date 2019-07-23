@@ -7,6 +7,8 @@ from django.conf import settings
 from django.http.response import HttpResponse
 from django.core.mail import send_mail, EmailMessage
 from django.db.models import Avg, Count, Sum
+from users.models import UpdateFile
+from users.controllers import ClientUserControllers
 from datetime import timedelta
 
 @app.task
@@ -64,3 +66,25 @@ def ReportClientUser(data):
     report.percent = 100
     report.save()
     print('correo enviado')
+
+@app.task
+def update_file(data):
+    file = UpdateFile.objects.get(pk=data['id'])
+    if file is None:
+        return True
+    read = file.file.open(mode="r")
+    a = list(read)
+    total_row = len(a)
+    for index, r in enumerate(a):
+
+        if index == 0:
+            continue
+        info = r.split(',')
+        club_premier_id = info[0]
+        try:
+            ClientUserControllers.create_user_file(club_premier_id)
+        except Exception as e:
+            print(e)
+    percent = (100 * index) / total_row
+    file.percent = 100
+    file.save()

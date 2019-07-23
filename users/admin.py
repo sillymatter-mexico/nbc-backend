@@ -1,6 +1,6 @@
 from django.contrib import admin
-from users.models import ClientUser, Session, StaffUser, ReportUsers
-from users.tasks import ReportClientUser
+from users.models import ClientUser, Session, StaffUser, ReportUsers, UpdateFile
+from users.tasks import ReportClientUser, update_file
 
 # Register your models here.
 
@@ -25,8 +25,8 @@ class StaffUserAdmin(admin.ModelAdmin):
 def Reporte_Usuarios(modeladmin, request, queryset):
     for i in queryset:
         data = {'id': int(i.id)}
-       #ReportClientUser.delay(data)
-        ReportClientUser(data)
+        ReportClientUser.delay(data)
+        #ReportClientUser(data)
 
 @admin.register(ReportUsers)
 class ReportUsers(admin.ModelAdmin):
@@ -34,3 +34,17 @@ class ReportUsers(admin.ModelAdmin):
                     'percent', 'percent_report')
     fields = ['name', 'email', 'start_date', 'finish_date']
     actions = [Reporte_Usuarios]
+
+
+def Subir_archivo(modeladmin, request, queryset):
+    for i in queryset:
+        data = {'id': int(i.id)}
+        update_file.delay(data)
+        #update_file(data)
+
+
+@admin.register(UpdateFile)
+class UpdateFileAdmin(admin.ModelAdmin):
+    list_display = ['id', '__str__']
+    fields = ['file']
+    actions = [Subir_archivo]

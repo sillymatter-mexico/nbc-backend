@@ -20,6 +20,19 @@ class ClientUserControllers(DefaultControllers):
         return user
 
     @classmethod
+    def create_user_file(cls, cn_code):
+        user = cls.get_by_id_club_premier(cn_code)
+        if user is None:
+            user = cls.model()
+            user.club_premier_id = cn_code
+            user.accepts_terms = True
+            user.save()
+        else:
+            user.club_premier_id = cn_code
+            user.save()
+        return user
+
+    @classmethod
     def get_by_token(cls, token):
         """Trae el token del usuario"""
         try:

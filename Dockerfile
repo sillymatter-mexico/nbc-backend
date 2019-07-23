@@ -53,6 +53,6 @@ ENV EMAIL_HOST = 'smtp.gmail.com'
 ENV EMAIL_HOST_USER = 'claudiam.texcucano@gmail.com'
 ENV EMAIL_HOST_PASSWORD = 'claudia333ale'
 ENV EMAIL_PORT = '587'
-ENV EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#ENV EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 COPY . proj/

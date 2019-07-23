@@ -64,3 +64,11 @@ class ReportUsers(PublicModel):
                                      u'podra descargar desde esta URL')
     percent = models.SmallIntegerField(default=0, blank=True, verbose_name=u'Porcentaje Genera Total')
     percent_report = models.SmallIntegerField(default=0, blank=True, verbose_name=u'Porcentaje Reporte')
+
+
+class UpdateFile(PublicModel):
+    file = models.FileField(upload_to='file/database')
+    percent = models.SmallIntegerField(default=0, blank=True)
+
+    def __str__(self):
+        return '{0} %'.format(self.percent)
