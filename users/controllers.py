@@ -65,7 +65,30 @@ class SessionControllers(DefaultControllers):
     model = Session
 
     @classmethod
-    def create_session(cls, user, number_game):
+    def create_session(cls, user):
+        number_game = 1
+        game = GameControllers.search_game(number_game)
+        user_session = cls.model()
+        user_session.client_user_pk = user
+        user_session.score = 0
+        user_session.completed = False
+
+        user_session.game = game
+        user_session.high_score = 0
+        user_session.level = 0
+        user_session.high_bonus = 0
+        user_session.bonus = 0
+        user_session.score_level = 0
+        user_session.bonus_level = 0
+        user_session.high_score_level = 0
+        user_session.high_bonus_level = 0
+        user_session.attempt = 0
+
+        user_session.save()
+        return user_session
+
+    @classmethod
+    def create_session_games(cls, user, number_game):
         game = GameControllers.search_game(number_game)
         user_session = cls.model()
         user_session.client_user_pk = user
@@ -94,57 +117,65 @@ class SessionControllers(DefaultControllers):
         return None
 
     @classmethod
+    def search_session_first(cls, uuid_user):
+        session = cls.model.objects.filter(client_user_pk__uuid=uuid_user).order_by('-created')
+        if session.exists():
+            return session[0]
+        return None
+
+    @classmethod
     def save_session(cls, user_session, data):
         user_session.completed = data['completed']
 
-        if data['completed']=='True':
-            if user_session.game.order == 1 or user_session.game.order==3:
+        if data['completed'] == 'True':
+            if user_session.game.order == 1 or user_session.game.order == 3:
                 user_session.score = data['score']
                 sum_score = user_session.high_score + int(data['score'])
                 max_score = GameControllers.game(user_session.game.order)
                 if sum_score >= max_score:
                     user_session.high_score = max_score
-                    user_session.attempt = user_session.attempt + 1
+                    user_session.attempt = data['attempt']
                 else:
                     user_session.high_score = sum_score
-                    user_session.attempt = user_session.attempt + 1
+                    user_session.attempt = data['attempt']
             if user_session.game.order == 4:
-                user_session.score =int(data['score'])
+                user_session.score = int(data['score'])
                 max_score = GameControllers.game(user_session.game.order)
                 if user_session.score < max_score:
                     if user_session.score >= user_session.high_score:
                         user_session.high_score = user_session.score
-                        user_session.attempt = user_session.attempt + 1
+                        user_session.attempt = data['attempt']
                     else:
                         user_session.high_score = user_session.high_score
-                        user_session.attempt = user_session.attempt + 1
+                        user_session.attempt = data['attempt']
                 else:
                     user_session.high_score = max_score
-                    user_session.attempt= user_session.attempt + 1
+                    user_session.attempt = data['attempt']
             if user_session.game.order == 2:
                 user_session.level = user_session.level + 1
-                user_session.high_score_level=user_session.high_score_level+ int(data['score'])
+                user_session.high_score_level = user_session.high_score_level + int(data['score'])
                 user_session.high_bonus_level = user_session.high_bonus_level + int(data['bonus'])
                 user_session.bonus_level = data['bonus']
                 user_session.score_level = data['score']
-                if user_session.level== 3:
+                if user_session.level == 3:
                     user_session.level = 0
-                    user_session.attempt = user_session.attempt + 1
+                    user_session.attempt = data['attempt']
                     user_session.score = user_session.high_score_level
                     user_session.bonus = user_session.high_bonus_level
-                    sum=user_session.score + user_session.bonus
+                    sum = user_session.score + user_session.bonus
                     sum2 = user_session.high_score + user_session.high_bonus
                     if sum > sum2:
                         user_session.high_score = user_session.high_score_level
                         user_session.high_bonus = user_session.high_bonus_level
                     else:
-                        user_session.high_score= user_session.high_score
-                        user_session.high_bonus= user_session.high_bonus
+                        user_session.high_score = user_session.high_score
+                        user_session.high_bonus = user_session.high_bonus
                     user_session.high_score_level = 0
                     user_session.high_bonus_level = 0
 
         user_session.save()
         return user_session
+
 
 class StaffUserControllers(DefaultControllers):
     model = StaffUser
