@@ -51,6 +51,14 @@ class Create_session(TokenView):
         if session_user.game.order < number_game:
             number_session= session_user.game.order + 1
             if number_session == number_game:
+                if session_user.game.order == 2:
+                    if session_user.level == 4:
+                        session_user = SessionControllers.create_session_games(
+                            client_user, number_game)
+                        info = SessionSerializer(session_user, many=False).data
+                        return self.api_ok_response(info, '')
+                    info = SessionSerializer(session_user, many=False).data
+                    return self.api_ok_response(info, '')
                 max_score = GameControllers.game(session_user.game.order)
                 if session_user.attempt == 3 or session_user.high_score >= max_score:
                     session_user = SessionControllers.create_session_games(client_user, number_game)
@@ -60,6 +68,12 @@ class Create_session(TokenView):
             return self.api_fail_response({}, messages)
         if number_game == session_user.game.order:
             max_score = GameControllers.game(number_game)
+            if session_user.game.order == 2:
+                if session_user.level ==4:
+                    messages = "juego finalizado"
+                    return self.api_fail_response({}, messages)
+                info = SessionSerializer(session_user, many=False).data
+                return self.api_ok_response(info, '')
             if session_user.attempt == 3 or session_user.high_score>=max_score:
                 messages = "Juego finalizado"
                 return self.api_fail_response({}, messages)
@@ -73,7 +87,7 @@ class Save_session(TokenView):
         number_game = data['number_game']
         session_user = SessionControllers.search_session(client_user_uuid, number_game)
         if int(number_game)== 2:
-            if session_user.attempt == 3:
+            if session_user.attempt == 3 and session_user.level == 4:
                 message = "Juego finalizado"
                 return self.api_ok_response({}, message)
         else:
