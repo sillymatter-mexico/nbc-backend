@@ -27,8 +27,10 @@ def ReportClientUser(data):
     ws = wb.active
     ws['A1'] = 'ID Uuiversal'
     ws['B1'] = 'Fecha de resgistro'
-    ws['C1'] = 'Total puntuación'
+    ws['C1'] = 'Total puntuación juegos'
     ws['D1'] = 'Juegos completados'
+    ws['E1'] = 'Acumulaciones premier'
+    ws['F1'] = 'Puntuacion Total'
     cont2 = 2
     for user in list_user:
         cont = cont + 1
@@ -38,6 +40,17 @@ def ReportClientUser(data):
         ws.cell(row=cont2, column=3).value = total_score['high_score__sum']
         completed_game =  Session.objects.filter(client_user_pk__club_premier_id__exact=user.club_premier_id, attempt=3).count()
         ws.cell(row=cont2, column=4).value = completed_game
+        if user.accumulation is None:
+            ws.cell(row=cont2, column=5).value = 0
+            ws.cell(row=cont2, column=6).value = total_score['high_score__sum']
+        else:
+            ws.cell(row=cont2, column=5).value = user.accumulation
+            accumulation=int(user.accumulation)*10
+            if total_score['high_score__sum'] is None:
+                ws.cell(row=cont2, column=6).value = 0 + accumulation
+            else:
+                ws.cell(row=cont2, column=6).value = int(total_score['high_score__sum'])+ accumulation
+
         cont2 = cont2 + 1
         percent = (cont/total)*100
         report.percent = percent
@@ -81,8 +94,9 @@ def update_file(data):
             continue
         info = r.split(',')
         club_premier_id = info[0]
+        accumulation = info[1]
         try:
-            ClientUserControllers.create_user_file(club_premier_id)
+            ClientUserControllers.create_user_file(club_premier_id, accumulation)
         except Exception as e:
             print(e)
     percent = (100 * index) / total_row

@@ -17,11 +17,14 @@ class ClientUserSerializer(serializers.ModelSerializer):
     game = serializers.SerializerMethodField()
     completed_game = serializers.SerializerMethodField()
 
+
     class Meta:
         model = ClientUser
-        fields = ('club_premier_id', 'uuid', 'completed_game', 'total_score', 'game')
+        fields = ('club_premier_id', 'uuid', 'completed_game','accumulation',  'total_score', 'game')
     def get_total_score(self, client_user):
-        return Session.objects.filter(client_user_pk=client_user).aggregate(Sum('high_score')).get('high_score__sum')
+        user = ClientUser.objects.filter(club_premier_id=client_user)
+        a=int(user[0].accumulation)*10
+        return Session.objects.filter(client_user_pk=client_user).aggregate(Sum('high_score')).get('high_score__sum')+a
     def get_completed_game(self, client_user):
         return Session.objects.filter(client_user_pk=client_user, attempt=3).count()
     def get_game(self, client_user):

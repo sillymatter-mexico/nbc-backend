@@ -11,6 +11,7 @@ class ClientUser(PublicModel):
     accepts_terms = models.BooleanField(default=False, verbose_name=u'Terminos')
     passwordToken = models.UUIDField(default=uuid.uuid4, editable=False,
                                      unique=True)
+    accumulation = models.IntegerField(null=True, blank=True, verbose_name=u'Acumulación Premier')
 
     def __str__(self):
         return '{0}'.format(self.club_premier_id)

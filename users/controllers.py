@@ -20,15 +20,17 @@ class ClientUserControllers(DefaultControllers):
         return user
 
     @classmethod
-    def create_user_file(cls, cn_code):
+    def create_user_file(cls, cn_code, accumulation):
         user = cls.get_by_id_club_premier(cn_code)
         if user is None:
             user = cls.model()
             user.club_premier_id = cn_code
             user.accepts_terms = True
+            user.accumulation = accumulation
             user.save()
         else:
             user.club_premier_id = cn_code
+            user.accumulation = accumulation
             user.save()
         return user
 

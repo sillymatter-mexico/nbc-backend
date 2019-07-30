@@ -15,7 +15,7 @@ class SessionInline(admin.TabularInline):
 
 @admin.register(ClientUser)
 class ClientUserAdmin(admin.ModelAdmin):
-    list_display = ['__str__','created', 'uuid']
+    list_display = ['__str__','created','accumulation', 'uuid']
     inlines = [SessionInline]
 
 @admin.register(StaffUser)
@@ -25,8 +25,8 @@ class StaffUserAdmin(admin.ModelAdmin):
 def Reporte_Usuarios(modeladmin, request, queryset):
     for i in queryset:
         data = {'id': int(i.id)}
-        ReportClientUser.delay(data)
-        #ReportClientUser(data)
+        #ReportClientUser.delay(data)
+        ReportClientUser(data)
 
 @admin.register(ReportUsers)
 class ReportUsers(admin.ModelAdmin):
