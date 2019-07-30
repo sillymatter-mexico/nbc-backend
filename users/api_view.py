@@ -39,21 +39,21 @@ class General_information(TokenView):
 
 class Create_session(TokenView):
     def post(self, request, client_user_uuid):
-        client_user= ClientUserControllers.get_by_uuid(client_user_uuid)
+        client_user = ClientUserControllers.get_by_uuid(client_user_uuid)
         data = request.data
         number_game = int(data['number_game'])
-        session_user =SessionControllers.search_session_first(client_user.uuid)
+        session_user = SessionControllers.search_session_first(client_user.uuid)
         if session_user is None:
             session_user = SessionControllers.create_session(client_user)
         if session_user.game.order > number_game:
             messages = "Jugar finalizado"
             return self.api_fail_response({}, messages)
         if session_user.game.order < number_game:
-            number_session= session_user.game.order + 1
+            number_session = session_user.game.order + 1
             if number_session == number_game:
                 if session_user.game.order == 2 or session_user.game.order == 3:
                     max_score = GameControllers.game(number_game)
-                    if session_user.level == 4 or session_user.high_score==max_score:
+                    if session_user.level == 4 or session_user.high_score == max_score:
                         session_user = SessionControllers.create_session_games(
                             client_user, number_game)
                         info = SessionSerializer(session_user, many=False).data
@@ -70,12 +70,12 @@ class Create_session(TokenView):
         if number_game == session_user.game.order:
             max_score = GameControllers.game(number_game)
             if session_user.game.order == 2:
-                if session_user.level ==4:
+                if session_user.level == 4:
                     messages = "juego finalizado"
                     return self.api_fail_response({}, messages)
                 info = SessionSerializer(session_user, many=False).data
                 return self.api_ok_response(info, '')
-            if session_user.attempt == 3 or session_user.high_score>=max_score:
+            if session_user.attempt == 3 or session_user.high_score >= max_score:
                 messages = "Juego finalizado"
                 return self.api_fail_response({}, messages)
         info = SessionSerializer(session_user, many=False).data
@@ -84,16 +84,16 @@ class Create_session(TokenView):
 
 class Save_session(TokenView):
     def post(self, request, client_user_uuid):
-        data= request.data
+        data = request.data
         number_game = data['number_game']
         session_user = SessionControllers.search_session(client_user_uuid, number_game)
         max_score = GameControllers.game(number_game)
-        if int(number_game)== 2 or int(number_game)==3:
+        if int(number_game) == 2 or int(number_game) == 3:
             if session_user.attempt == 3 and session_user.level == 4 or session_user.high_score >= max_score:
                 message = "Juego finalizado"
                 return self.api_ok_response({}, message)
         else:
-            if session_user.attempt == 3 or session_user.high_score>=max_score:
+            if session_user.attempt == 3 or session_user.high_score >= max_score:
                 message = "Juego finalizado"
                 return self.api_ok_response({}, message)
         save_session = SessionControllers.save_session(session_user, data)
