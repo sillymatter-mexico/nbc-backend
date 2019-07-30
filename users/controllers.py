@@ -143,6 +143,10 @@ class SessionControllers(DefaultControllers):
                     user_session.high_score = sum_score
                     user_session.attempt = data['attempt']
             if user_session.game.order == 4:
+                if int(data['attempt']) == 1:
+                    user_session.score_level = 0
+                    user_session.high_score = 0
+                    user_session.save()
                 user_session.score = int(data['score'])
                 max_score = GameControllers.game(user_session.game.order)
                 if user_session.score < max_score:
@@ -197,6 +201,14 @@ class SessionControllers(DefaultControllers):
                         user_session.high_score = user_session.high_score
                         user_session.high_bonus = user_session.high_bonus
             if user_session.game.order == 3:
+                if int(data['attempt']) == 1:
+                    user_session.bonus = 0
+                    user_session.score_level = 0
+                    user_session.high_score_level = 0
+                    user_session.save()
+                    if int(data['level'])== 1 and int(data['attempt'])== 1:
+                        user_session.high_score = 0
+                        user_session.save()
                 user_session.level = int(data['level'])
                 user_session.high_score_level = user_session.high_score_level + int(data['score'])
                 user_session.score_level = data['score']
@@ -204,11 +216,10 @@ class SessionControllers(DefaultControllers):
                 max_score = GameControllers.game(user_session.game.order)
                 if user_session.high_score_level >= max_score:
                     user_session.high_score = max_score
-                if int(user_session.level) == 3:
-                    if int(user_session.attempt) == 3:
-                        user_session.level = int(data['level'])+1
-                    else:
-                        user_session.level = 0
+                if int(user_session.attempt) == 3:
+                    #user_session.high_score = user_session.high_score + user_session.high_score_level
+                    #user_session.high_score_level = 0
+                    #user_session.save()
                     if user_session.high_score_level  >= max_score:
                         user_session.high_score = max_score
                     else:
@@ -218,6 +229,11 @@ class SessionControllers(DefaultControllers):
                             user_session.high_score =user_session.high_score
                     user_session.high_score_level = 0
                     user_session.high_bonus_level = 0
+                if int(user_session.level) == 3:
+                    if int(user_session.attempt) == 3:
+                        user_session.level = int(data['level'])+1
+                    else:
+                        user_session.level = 0
         user_session.save()
         return user_session
 
