@@ -162,7 +162,7 @@ class SessionControllers(DefaultControllers):
                     user_session.high_score = max_score
                     user_session.attempt = data['attempt']
             if user_session.game.order == 2:
-                if int(data['attempt']) == 1:
+                if int(data['level']) == 1:
                     user_session.bonus = 0
                     user_session.score_level = 0
                     user_session.bonus_level = 0
@@ -180,18 +180,24 @@ class SessionControllers(DefaultControllers):
                 user_session.bonus_level = data['bonus']
                 user_session.score_level = data['score']
                 user_session.attempt = data['attempt']
-                if int(user_session.attempt) == 3:
-                    user_session.high_score = user_session.high_score + user_session.high_score_level
-                    user_session.high_bonus = user_session.high_bonus + user_session.high_bonus_level
+                if int(user_session.level) == 3:
+                    sum=user_session.high_score+user_session.high_bonus
+                    sum2=user_session.high_score_level+user_session.high_bonus_level
+                    if sum >= sum2:
+                        user_session.high_score = user_session.high_score
+                        user_session.high_bonus = user_session.high_bonus
+                    else:
+                        user_session.high_score = user_session.high_score_level
+                        user_session.high_bonus = user_session.high_bonus_level
                     user_session.high_score_level = 0
                     user_session.high_bonus_level = 0
                     user_session.save()
-                if int(user_session.level) == 3:
-                    if int(user_session.attempt) == 3:
-                        user_session.level = int(data['level'])+1
+                if int(user_session.attempt) == 3:
+                    if int(user_session.level) == 3:
+                        user_session.attempt = int(data['attempt'])+1
                     else:
-                        user_session.level = 0
-                    user_session.attempt = data['attempt']
+                        user_session.attempt = 0
+                    user_session.level = data['level']
                     user_session.score = user_session.high_score_level
                     user_session.bonus = user_session.high_bonus_level
                     sum = user_session.score + user_session.bonus
