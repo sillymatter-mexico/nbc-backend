@@ -26,7 +26,19 @@ class ClientUserSerializer(serializers.ModelSerializer):
         #a=int(user[0].accumulation)*10
         return Session.objects.filter(client_user_pk=client_user).aggregate(Sum('high_score')).get('high_score__sum')
     def get_completed_game(self, client_user):
-        return Session.objects.filter(client_user_pk=client_user, attempt=3).count()
+        session_list = Session.objects.filter(client_user_pk=client_user)
+        cont = 0
+        for session in session_list:
+            id_game=session.game.id
+            if id_game ==2 or id_game==3:
+                if session.attempt == 4:
+                    cont = cont+1
+            else:
+                max_score= Game.objects.filter(id=id_game)[0].max_score
+                high_score= session.high_score
+                if high_score == max_score or session.attempt == 3:
+                    cont = cont+1
+        return cont
     def get_game(self, client_user):
         return SessionGameSerializer(client_user.session_set.all(), many=True).data
 
