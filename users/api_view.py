@@ -46,6 +46,15 @@ class Create_session(TokenView):
         if session_user is None:
             session_user = SessionControllers.create_session(client_user)
         if session_user.game.order > number_game:
+            session_user = SessionControllers.search_session(client_user_uuid, number_game)
+            if session_user.game.order == 2 or session_user.game.order == 3:
+                session_user = SessionControllers.search_session(client_user_uuid, number_game)
+                if session_user.attempt == 4:
+                    messages = "juego finalizado"
+                    return self.api_fail_response({}, messages)
+                else:
+                    info = SessionSerializer(session_user, many=False).data
+                    return self.api_ok_response(info, '')
             messages = "Jugar finalizado"
             return self.api_fail_response({}, messages)
         if session_user.game.order < number_game:
