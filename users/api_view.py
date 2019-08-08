@@ -52,14 +52,19 @@ class Create_session(TokenView):
             number_session = session_user.game.order + 1
             if number_session == number_game:
                 if session_user.game.order == 2 or session_user.game.order == 3:
-                    max_score = GameControllers.game(number_game)
-                    if session_user.attempt == 4 or session_user.high_score == max_score:
+                    previous_session = int(number_game) - 1
+                    a=SessionControllers.search_session(client_user_uuid, previous_session)
+                    if a is None:
+                        messages = "Jugar en orden"
+                        return self.api_fail_response({}, messages)
+                    if a.high_score != 0:
                         session_user = SessionControllers.create_session_games(
                             client_user, number_game)
                         info = SessionSerializer(session_user, many=False).data
                         return self.api_ok_response(info, '')
-                    info = SessionSerializer(session_user, many=False).data
-                    return self.api_ok_response(info, '')
+                    if a.high_score == 0:
+                        messages = "Jugar en orden"
+                        return self.api_fail_response({}, messages)
                 max_score = GameControllers.game(session_user.game.order)
                 if session_user.attempt == 3 or session_user.high_score >= max_score:
                     session_user = SessionControllers.create_session_games(client_user, number_game)

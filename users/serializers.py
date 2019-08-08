@@ -31,7 +31,7 @@ class ClientUserSerializer(serializers.ModelSerializer):
         for session in session_list:
             id_game=session.game.id
             if id_game ==2 or id_game==3:
-                if session.attempt == 4:
+                if session.high_score != 0:
                     cont = cont+1
             else:
                 max_score= Game.objects.filter(id=id_game)[0].max_score
