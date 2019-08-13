@@ -103,7 +103,7 @@ class Save_session(TokenView):
         session_user = SessionControllers.search_session(client_user_uuid, number_game)
         max_score = GameControllers.game(number_game)
         if int(number_game) == 2 or int(number_game) == 3:
-            if session_user.attempt == 3 or session_user.attempt == 4 or session_user.high_score >= max_score:
+            if session_user.attempt == 3 and session_user.level == 3 or session_user.attempt == 4 or session_user.high_score >= max_score:
                 message = "Juego finalizado"
                 return self.api_ok_response({}, message)
         else:

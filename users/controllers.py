@@ -195,8 +195,6 @@ class SessionControllers(DefaultControllers):
                 if int(user_session.attempt) == 3:
                     if int(user_session.level) == 3:
                         user_session.attempt = int(data['attempt'])+1
-                    else:
-                        user_session.attempt = 0
                     user_session.level = data['level']
                     user_session.score = user_session.high_score_level
                     user_session.bonus = user_session.high_bonus_level
@@ -240,8 +238,6 @@ class SessionControllers(DefaultControllers):
                 if int(user_session.attempt) == 3:
                     if int(user_session.level) == 3:
                         user_session.attempt = int(data['attempt'])+1
-                    else:
-                        user_session.attempt = 0
         user_session.save()
         return user_session
 
