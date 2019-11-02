@@ -7,7 +7,7 @@ django-celery-results==1.1.0
 django-cors-headers==2.4.0
 django-timezone-field==3.0
 djangorestframework==3.9.4
-ecdsa==0.13.2
+ecdsa==0.13.3
 et-xmlfile==1.0.1
 future==0.17.1
 jdcal==1.4.1
