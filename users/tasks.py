@@ -38,7 +38,7 @@ def ReportClientUser(data):
         ws.cell(row=cont2, column=2).value = user.created
         total_score = Session.objects.filter(client_user_pk__club_premier_id__exact=user.club_premier_id).aggregate(Sum('high_score'))
         ws.cell(row=cont2, column=3).value = total_score['high_score__sum']
-        completed_game =  Session.objects.filter(client_user_pk__club_premier_id__exact=user.club_premier_id, attempt=3).count()
+        completed_game =  Session.objects.filter(client_user_pk__club_premier_id__exact=user.club_premier_id).count()
         ws.cell(row=cont2, column=4).value = completed_game
         if user.accumulation is None:
             ws.cell(row=cont2, column=5).value = 0

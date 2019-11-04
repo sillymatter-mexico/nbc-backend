@@ -8,6 +8,7 @@ from users.tasks import ReportClientUser, update_file
 class SessionAdmin(admin.ModelAdmin):
     raw_id_fields = ['client_user_pk', 'label']
     list_display = ['pk','client_user_pk', 'game' ,'attempt', 'high_score', 'level','uuid']
+    search_fields = ['=client_user_pk__club_premier_id']
 
 class SessionInline(admin.TabularInline):
     model = Session
